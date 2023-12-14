@@ -21,7 +21,7 @@
       const cities = document.getElementById('cityInput').value.split(',').map(city => city.trim());
 
       try {
-        const response = await axios.post('http://localhost:3000/getWeather', { cities });
+        const response = await axios.post('/getWeather', { cities });
         const weatherData = response.data.weather;
 
         const resultContainer = document.getElementById('result');
