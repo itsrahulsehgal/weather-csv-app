@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+
+  <title>Weather App</title>
+</head>
+<body>
+  <label for="cityInput">Enter city names (comma-separated):</label>
+  <input type="text" id="cityInput" />
+  <button onclick="getWeather()">Get Weather</button>
+
+  <div id="result"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    async function getWeather() {
+      const cities = document.getElementById('cityInput').value.split(',').map(city => city.trim());
+
+      try {
+        const response = await axios.post('http://localhost:3000/getWeather', { cities });
+        const weatherData = response.data.weather;
+
+        const resultContainer = document.getElementById('result');
+        resultContainer.innerHTML = '<h2>Weather Results</h2>';
+        
+        for (const city in weatherData) {
+          const temperature = weatherData[city];
+          resultContainer.innerHTML += `<p>${city}: ${temperature}</p>`;
+        }
+      } catch (error) {
+        console.error('Error fetching weather data:', error.message);
+      }
+    }
+  </script>
+</body>
+</html>
